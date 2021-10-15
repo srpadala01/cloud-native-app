@@ -3,3 +3,4 @@ kind: Kustomization
 resources:
   - harbor.yaml
   - mysql.yaml
+  - cluster-issuer.yaml

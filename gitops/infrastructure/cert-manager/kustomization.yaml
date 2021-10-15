@@ -3,4 +3,3 @@ kind: Kustomization
 namespace: ingress-basic
 resources:
   - release.yaml
-  - cluster-issuer.yaml
