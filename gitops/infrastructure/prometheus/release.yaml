@@ -20,4 +20,4 @@ spec:
   valuesFrom:
   - kind: ConfigMap
     name: helm-values
-    valuesKey: prometheus-values.yaml             
+    valuesKey: prometheus-values.yaml                
