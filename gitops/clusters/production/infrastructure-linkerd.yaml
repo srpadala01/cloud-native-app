@@ -5,6 +5,11 @@ metadata:
   namespace: flux-system
 spec:
   interval: 10m0s
+  dependsOn:
+    - name: infrastructure-jaeger
+    - name: infrastructure-prometheus
+    - name: infrastructure-openfaas
+    - name: infrastructure-mysql
   sourceRef:
     kind: GitRepository
     name: flux-system
