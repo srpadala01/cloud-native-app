@@ -8,14 +8,12 @@ spec:
   dependsOn:
     - name: infrastructure-harbor
     - name: infrastructure-mysql
-    - name: infrastructure-certmanager
   sourceRef:
     kind: GitRepository
     name: flux-system
   path: ./gitops/infrastructure/seed
   postBuild:
     substitute:
-      externalUrl: "https://harbor-cna-gitops.eastus.cloudapp.azure.com"
-      cluster_issuer_email: "srpadala@microsoft.com"       
+      externalUrl: "https://harbor-cna-gitops.eastus.cloudapp.azure.com"     
   prune: true
   validation: client
