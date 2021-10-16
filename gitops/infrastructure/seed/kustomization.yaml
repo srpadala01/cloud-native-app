@@ -3,3 +3,11 @@ kind: Kustomization
 resources:
   - harbor.yaml
   - mysql.yaml
+patches:
+  - patch: |
+      - op: replace
+        path: /spec/additionalScrapeConfigs/name
+        value: prometheus-kube-prometheus-prometheus-scrape-confg-linkerd    
+    target:
+      kind: Prometheus
+      labelSelector: "app=kube-prometheus-stack-prometheus" 
