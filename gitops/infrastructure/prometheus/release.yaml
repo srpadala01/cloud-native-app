@@ -21,7 +21,7 @@ spec:
               version: monitoring.coreos.com/v1
               kind: ServiceMonitor
               name: prometheus-kube-prometheus-kubelet
-            patch: |-
+            patch:
               - op: replace
                 path: /spec
                 value:
@@ -44,7 +44,7 @@ spec:
               version: monitoring.coreos.com/v1
               kind: Prometheus
               name: prometheus-kube-prometheus-prometheus
-            patch: |-
+            patch:
               - op: replace
                 path: /spec/additionalScrapeConfigs/name                 
                 value: prometheus-kube-prometheus-prometheus-scrape-confg-linkerd     
