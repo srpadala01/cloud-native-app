@@ -30,7 +30,7 @@ spec:
           - target:
               version: v1
               kind: ServiceMonitor
-              name: prometheus-kube-prometheus-prometheus
+              name: prometheus-kube-prometheus-kubelet
             patch:
               - op: replace
                 path: /spec/endpoints
