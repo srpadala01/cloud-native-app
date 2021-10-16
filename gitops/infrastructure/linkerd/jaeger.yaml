@@ -21,6 +21,8 @@ spec:
     remediation:
       retries: 3    
   values:
+    jaeger:
+      enabled: false
     collector:
       config: |
         receivers:
@@ -50,6 +52,4 @@ spec:
             traces:
               receivers: [otlp,opencensus,zipkin,jaeger]
               processors: [batch]
-              exporters: [jaeger]
-    jaeger:
-      enabled: false    
+              exporters: [jaeger]  
