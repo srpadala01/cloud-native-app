@@ -19,18 +19,14 @@ sudo dpkg -i step-cli_0.15.2_amd64.deb
 
 cd cloud-native-app/gitops/infrastructure/linkerd
 
-step certificate create identity.linkerd.cluster.local ca.crt ca.key \
---profile root-ca --no-password --insecure \
---san identity.linkerd.cluster.local
+step certificate create root.linkerd.cluster.local ca.crt ca.key \
+  --profile root-ca --no-password --insecure
 
-step certificate create identity.linkerd.cluster.local issuer.crt issuer.key \
---ca ca.crt --ca-key ca.key --profile intermediate-ca --not-after 8760h --no-password --insecure \
---san identity.linkerd.cluster.local
-
-kubectl -n linkerd create secret generic certs \
---from-file=ca.crt --from-file=issuer.crt \
---from-file=issuer.key -oyaml --dry-run=client \
-> certs.yaml
+kubectl -n linkerd create secret tls \
+  linkerd-trust-anchor \
+  --cert=ca.crt \
+  --key=ca.key -oyaml --dry-run=client \
+> secret.yaml
 
 cd ../../..
 
