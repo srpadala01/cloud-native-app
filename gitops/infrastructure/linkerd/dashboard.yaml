@@ -21,8 +21,6 @@ spec:
     remediation:
       retries: 3 
   values:
-    installNamespace: false
-    namespace: linkerd
     jaegerUrl: jaeger-query.tracing.svc.local
     grafanaUrl: prometheus-grafana.monitoring.svc.local
     prometheusUrl: prometheus-kube-prometheus-prometheus.monitoring.svc.local:9090
