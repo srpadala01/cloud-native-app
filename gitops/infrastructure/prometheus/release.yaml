@@ -16,7 +16,7 @@ spec:
   interval: 1h0m0s
   postRenderers:
     - kustomize:
-        patches:
+        patchesJson6902:
           - target:
               version: monitoring.coreos.com/v1
               kind: ServiceMonitor
