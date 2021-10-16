@@ -8,7 +8,8 @@ spec:
   releaseName: linkerd-jaeger 
   chart:
     spec:
-      chart: linkerd-jaeger 
+      chart: linkerd-jaeger
+      version: '2.10.0'      
       sourceRef:
         kind: HelmRepository
         name: linkerd
