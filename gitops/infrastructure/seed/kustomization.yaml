@@ -6,8 +6,10 @@ resources:
 patches:
   - patch: |
       - op: replace
-        path: /spec/additionalScrapeConfigs/name
-        value: prometheus-kube-prometheus-prometheus-scrape-confg-linkerd    
+        path: /spec/additionalScrapeConfigs
+        value: 
+          key: additional-scrape-configs.yaml
+          name: prometheus-kube-prometheus-prometheus-scrape-confg-linkerd    
     target:
       kind: Prometheus
       labelSelector: "app=kube-prometheus-stack-prometheus" 
