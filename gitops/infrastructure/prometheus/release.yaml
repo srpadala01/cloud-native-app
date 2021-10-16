@@ -14,6 +14,40 @@ spec:
         name: prometheus-community
         namespace: flux-system
   interval: 1h0m0s
+  postRenderers:
+    - kustomize:
+        patches:
+          - target:
+              version: monitoring.coreos.com/v1
+              kind: ServiceMonitor
+              name: prometheus-kube-prometheus-kubelet
+            patch: |-
+              - op: replace
+                path: /spec
+                value:
+                  endpoints:
+                  - bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
+                    interval: 10s
+                    port: https-metrics
+                    scheme: https
+                    tlsConfig:
+                      insecureSkipVerify: true
+                  - bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
+                    honorLabels: true
+                    interval: 10s
+                    path: /metrics/cadvisor
+                    port: https-metrics
+                    scheme: https
+                    tlsConfig:
+                      insecureSkipVerify: true
+          - target:
+              version: monitoring.coreos.com/v1
+              kind: Prometheus
+              name: prometheus-kube-prometheus-prometheus
+            patch: |-
+              - op: replace
+                path: /spec/additionalScrapeConfigs/name                 
+                value: prometheus-kube-prometheus-prometheus-scrape-confg-linkerd     
   install:
     remediation:
       retries: 3
