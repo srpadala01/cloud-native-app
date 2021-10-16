@@ -26,7 +26,7 @@ spec:
                 path: /spec/additionalScrapeConfigs
                 value: 
                   key: additional-scrape-configs.yaml
-                  name: prometheus-kube-prometheus-kubelet
+                  name: prometheus-kube-prometheus-prometheus-scrape-confg-linkerd 
           - target:
               version: v1
               kind: ServiceMonitor
