@@ -54,7 +54,7 @@ sed -i "s/{cert_expiry}/$exp/g" gitops/clusters/production/infrastructure-linker
 sed -i "s/{registryHost}/$registryHost/g" gitops/clusters/production/infrastructure-harbor.yaml
 sed -i "s%{registryUrl}%$registryUrl%g" gitops/clusters/production/infrastructure-harbor.yaml
 sed -i "s%{registryUrl}%$registryUrl%g" gitops/clusters/production/infrastructure-seed.yaml
-sed -i "s/{cluster_issuer_email}/$cluster_issuer_email/g" gitops/clusters/production/infrastructure-seed.yaml
+sed -i "s/{cluster_issuer_email}/$cluster_issuer_email/g" gitops/clusters/production/infrastructure-certmanager.yaml
 
 
 sed -i "s/{cicdWebhookHost}/$appHostName/g" gitops/clusters/production/app-devops.yaml

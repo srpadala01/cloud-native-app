@@ -20,13 +20,21 @@ spec:
       retries: 3
   valuesFrom:
     - kind: Secret
-      name: linkerd-trust-anchor
-      valuesKey: tls.crt
-      targetPath: global.identityTrustAnchorsPEM     
+      name: certs
+      valuesKey: ca.crt
+      targetPath: global.identityTrustAnchorsPEM
+    - kind: Secret
+      name: certs
+      valuesKey: issuer.crt
+      targetPath: identity.issuer.tls.crtPEM
+    - kind: Secret
+      name: certs
+      valuesKey: issuer.key
+      targetPath: identity.issuer.tls.keyPEM      
   values:
     installNamespace: false
     prometheus:
       enabled: false
     identity:
       issuer:
-        scheme: kubernetes.io/tls   
+        crtExpiry: ${cert_expiry}
