@@ -37,8 +37,8 @@ spec:
             apiVersion: networking.k8s.io/v1
             metadata:
               name: harbor-harbor-ingress
-            annotations:
-              acme.cert-manager.io/http01-edit-in-place: "true"                 
+              annotations:
+                acme.cert-manager.io/http01-edit-in-place: "true"                 
   values:
     expose:
       tls:
