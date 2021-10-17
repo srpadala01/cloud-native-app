@@ -1,67 +1,5 @@
-### Prepare the repo
-
-- Fork the repo
-- Clone the fork to workstation
-
-### Script Install
-
-```bash
-# Email to use for LetsEncrypt
-export cluster_issuer_email="<<EMAIL>>"
-# FQDN to assign to the Harbor Ingress. eg. {uniquename}.{region}.cloudapp.azure.com if assigning through the Configuration blade of a Azure PublicIP
-export registryHost="<<FQDN>>"
-# sendGrid API Key for the app to send emails
-export sendGridApiKey="<<set the api key>>"
-# FQDN to assign to the app eg. {uniquename}.{region}.cloudapp.azure.com if assigning through the Configuration blade of a Azure PublicIP
-export appHostName="<<FQDN>>"
-# PAT token to access Github
-export GITHUB_TOKEN="<<PAT TOken>>"
-# Github runner
-export owner="<<Github user>>"
-
-sh cloud-native-app/setup.sh
-
-```
-
-Urls for the components
-
-```bash
-# Tekton
-kubectl port-forward svc/tekton-dashboard 8080:9097  -n tekton-pipelines
-Browse to http://localhost:8080
-
-# Linkerd
-kubectl port-forward svc/web 8084:8084  -n linkerd-viz
-Browse to http://localhost:8084
-
-#Jaeger
-kubectl port-forward svc/jaeger-query 8060:80 -n tracing
-Browse to http://localhost:8060
-
-# Grafana
-kubectl port-forward deploy/prometheus-grafana 8070:3000 -n monitoring
-Browse to http://localhost:8070 and use the username/password as admin/FTA@CNCF0n@zure3
-
-# Prometheus
-kubectl port-forward svc/prometheus-kube-prometheus-prometheus 9090:9090 -n monitoring 
-Browse to http://localhost:9090
-
-# Openfaas
-kubectl port-forward deploy/gateway 8080:8080 -n openfaas
-Browse to http://localhost:8080 and use the username/password as admin/FTA@CNCF0n@zure3
-```
-
-Alternatively, use the instructions below
-
-### Install Flux
-
-```bash
+#!/bin/bash
 curl -s https://fluxcd.io/install.sh | sudo bash
-```
-
-#### Generate Linkerd v2 certificates
-
-```bash
 
 wget https://github.com/smallstep/cli/releases/download/v0.15.2/step-cli_0.15.2_amd64.deb
 sudo dpkg -i step-cli_0.15.2_amd64.deb
@@ -83,24 +21,11 @@ kubectl -n linkerd create secret generic certs \
 
 cd ../../..
 
-```
-
-Set the variables required for the deployment
-
-```bash
-
-# Email to use for LetsEncrypt
-cluster_issuer_email="<<EMAIL>>"
-# FQDN to assign to the Harbor Ingress. Eg. {uniquename}.{region}.cloudapp.azure.com if assigning through the Configuration blade of a Azure PublicIP
-registryHost="<<FQDN>>"
-# sendGrid API Key for the app to send emails
-sendGridApiKey="<<set the api key>>"
-# FQDN to assign to the app Eg. {uniquename}.{region}.cloudapp.azure.com if assigning through the Configuration blade of a Azure PublicIP
-appHostName="<<FQDN>>"
-
 registryUrl=https://$registryHost
 appHostDnsLabel=`echo $appHostName | cut -d '.' -f 1`
 registryHostDnsLabel=`echo $registryHost | cut -d '.' -f 1`
+
+
 exp=$(date -d '+8760 hour' +"%Y-%m-%dT%H:%M:%SZ")
 sed -i "s/{cert_expiry}/$exp/g" gitops/clusters/production/infrastructure-linkerd.yaml
 sed -i "s/{registryHost}/$registryHost/g" gitops/clusters/production/infrastructure-harbor.yaml
@@ -128,38 +53,14 @@ kubectl create secret docker-registry regcred \
 
 cd ../../..
 
-```
-
-Commit the Repo
-
-### Bootstrap
-
-- Create a PAT token in Github
-- Run the bootstrap
-
-```bash
-# PAT token to access Github
-export GITHUB_TOKEN=<PAT TOken>
-# Github runner
-export owner="<<Github user>>"
-
 flux bootstrap github \
   --owner="$owner"> \
   --repository=cloud-native-app \
   --path=gitops/clusters/production \
   --personal
-```
 
-### Reconciliation
-
-Update the DNS labels on the public IPs as they are provisioned
-
-Create a webhook for the Github
-
-```bash
 curl -H "Authorization: token $GITHUB_TOKEN" \
   -X POST  \
   -H "Accept: application/vnd.github.v3+json" \
   https://api.github.com/repos/$owner/cloud-native-app/hooks \
   -d "{\"config\":{\"url\":\"https://$appHostName/cd\",\"content_type\":\"json\"}}"
-```
