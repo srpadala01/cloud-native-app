@@ -32,7 +32,17 @@ spec:
                   - args:
                     - -c
                     - '[ -e /var/lib/postgresql/data/postgresql.conf ] && [ ! -d /var/lib/postgresql/data/pgdata] && mkdir -m 0700 /var/lib/postgresql/data/pgdata && mv /var/lib/postgresql/data/* /var/lib/postgresql/data/pgdata/ || [ -d /var/lib/postgresql/data/pgdata ] && chown -R postgres:postgres /var/lib/postgresql/data/pgdata && chmod 0700 -R /var/lib/postgresql/data/pgdata || true'
-                    name: data-migrator       
+                    name: data-migrator
+        patchesJson6902:
+          - target:
+              version: v1
+              kind: Ingress
+              name: harbor-harbor-ingress
+            patch:
+              - op: add
+                path: /metadata/annotations
+                value: 
+                  acme.cert-manager.io/http01-edit-in-place: "true"                      
   values:
     expose:
       tls:
