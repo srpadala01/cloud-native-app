@@ -44,7 +44,7 @@ spec:
       tls:
         certSource: secret
         secret:
-          secretName: ingress-cert-harbor
+          secretName: harbor-ingress-cert
       ingress:
         annotations:
           kubernetes.io/ingress.class: harbor-nginx 
