@@ -1,5 +1,3 @@
-### Prepare the repo
-
 - Fork the repo
 - Clone the fork to workstation
 
