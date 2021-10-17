@@ -1,0 +1,9 @@
+apiVersion: v1
+data:
+  .dockerconfigjson: eyJhdXRocyI6eyJodHRwczovL2hhcmJvci1jbmEtc3JwYWRhbGEuZWFzdHVzLmNsb3VkYXBwLmF6dXJlLmNvbSI6eyJ1c2VybmFtZSI6ImNvbmV4cCIsInBhc3N3b3JkIjoiRlRBQENOQ0YwbkB6dXJlMyIsImVtYWlsIjoidXNlckBteWNvbXBhbnkuY29tIiwiYXV0aCI6IlkyOXVaWGh3T2taVVFVQkRUa05HTUc1QWVuVnlaVE09In19fQ==
+kind: Secret
+metadata:
+  creationTimestamp: null
+  name: regcred
+  namespace: openfaas-fn
+type: kubernetes.io/dockerconfigjson
