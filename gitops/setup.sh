@@ -53,6 +53,10 @@ kubectl create secret docker-registry regcred \
 
 cd ../../..
 
+git add *
+git commit -m  "Auto commit prep files"
+git push -u origin master
+
 flux bootstrap github \
   --owner="$owner"> \
   --repository=cloud-native-app \

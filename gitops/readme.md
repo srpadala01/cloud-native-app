@@ -1,29 +1,37 @@
-### Prepare the repo
 
+# GitOps Deployment Options
+
+## Prepare
+
+- Create a Kubernetes cluster with a minimum of 3 nodes and ~8+GB per node (e.g., Standard_DS3_v2)
 - Fork the repo
+- Create a [PAT token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) for the repo
 - Clone the fork to workstation
+
+## Option 1
 
 ### Script Install
 
 ```bash
-# Email to use for LetsEncrypt
-export cluster_issuer_email="<<EMAIL>>"
-# FQDN to assign to the Harbor Ingress. eg. {uniquename}.{region}.cloudapp.azure.com if assigning through the Configuration blade of a Azure PublicIP
-export registryHost="<<FQDN>>"
-# sendGrid API Key for the app to send emails
-export sendGridApiKey="<<set the api key>>"
-# FQDN to assign to the app eg. {uniquename}.{region}.cloudapp.azure.com if assigning through the Configuration blade of a Azure PublicIP
-export appHostName="<<FQDN>>"
 # PAT token to access Github
 export GITHUB_TOKEN="<<PAT TOken>>"
 # Github runner
 export owner="<<Github user>>"
+# FQDN to assign to the Harbor Ingress. eg. {uniquename}.{region}.cloudapp.azure.com if assigning through the Configuration blade of a Azure PublicIP
+export registryHost="<<FQDN>>"
+# FQDN to assign to the app eg. {uniquename}.{region}.cloudapp.azure.com if assigning through the Configuration blade of a Azure PublicIP
+export appHostName="<<FQDN>>"
+# Email to use for LetsEncrypt
+export cluster_issuer_email="<<EMAIL>>"
+# sendGrid API Key for the app to send emails
+export sendGridApiKey="<<set the api key>>"
+
 
 sh cloud-native-app/setup.sh
 
 ```
 
-Urls for the components
+### Urls for the components
 
 ```bash
 # Tekton
@@ -50,6 +58,11 @@ Browse to http://localhost:9090
 kubectl port-forward deploy/gateway 8080:8080 -n openfaas
 Browse to http://localhost:8080 and use the username/password as admin/FTA@CNCF0n@zure3
 ```
+
+Invoke the CICD pipeline by making a small edit to the read.me file in Github. Observe the deployment in Tekton Dashboard
+
+
+## Option 2
 
 Alternatively, use the instructions below
 
@@ -151,8 +164,6 @@ flux bootstrap github \
 ```
 
 ### Reconciliation
-
-Update the DNS labels on the public IPs as they are provisioned
 
 Create a webhook for the Github
 
